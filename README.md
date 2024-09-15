@@ -31,6 +31,11 @@ python simulator.py --run-idm --no-render
 
 The files are created under the `data` directory, and the figures under the `figures` directory.
 
+To visualize the traffic simulation:
+```
+python simulator.py --run-idm
+```
+
 ## Fundamental diagrams
 
 The following are fundamental diagrams generated from single lane traffic modeled using the Intelligent Driver Model (IDM).
