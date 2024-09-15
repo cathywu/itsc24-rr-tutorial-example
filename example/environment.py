@@ -1,3 +1,4 @@
+import csv
 import logging
 import random
 import time
@@ -25,6 +26,8 @@ PPU = 30
 SIMULATION_TIME = 30
 DT = 0.1
 TIME_THRESHOLD = 15
+DATA_FILE_FLOW = "data/flow_density_data.csv"
+DATA_FILE_SPEED = "data/flow_speed_data.csv" 
 
 
 class Environment:
@@ -53,7 +56,13 @@ class Environment:
             self.screen_width = 1000
 
         self.file_fd = open("data/flow_density_data.csv", "w")
+        flow_data_fieldnames = ['density', 'flow']
+        self.writer_fd = csv.DictWriter(self.file_fd, fieldnames=flow_data_fieldnames)
+        self.writer_fd.writeheader()
         self.file_sd = open("data/flow_speed_data.csv", "w")
+        speed_data_fieldnames = ['density', 'speed']
+        self.writer_sd = csv.DictWriter(self.file_sd, fieldnames=speed_data_fieldnames)
+        self.writer_sd.writeheader()
         
         # Load the graphs
         self.figure_svd, self.figure_fvd, self.axis_svd, self.axis_fvd = self.init_graphs()
@@ -224,13 +233,13 @@ class Environment:
             svd_x_axis.append(density)
             svd_y_axis.append(avg_velocity)
             self.axis_svd.scatter(svd_x_axis, svd_y_axis)
-            self.file_sd.write(str(density) + "," + str(avg_velocity) + "\n")
+            self.writer_sd.writerow({'density': density, 'speed': avg_velocity})
 
             fvd_x_axis.append(density)
             flow_real = flow / (SIMULATION_TIME - TIME_THRESHOLD)
             fvd_y_axis.append(flow_real)
             self.axis_fvd.scatter(fvd_x_axis, fvd_y_axis)
-            self.file_fd.write(str(density) + "," + str(flow_real) + "\n")
+            self.writer_fd.writerow({'density': density, 'flow': flow_real})
 
         # Save the two graphs as pngs, save the trajectory data for separate plotting
         self.save_data_and_plots()
