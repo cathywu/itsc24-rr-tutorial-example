@@ -10,7 +10,11 @@ This repository is the official implementation for the ITSC 2024 Tutorial [Repro
 
 ## Requirements
 
-To install requirements:
+Install [Anaconda Python](https://www.anaconda.com/download).
+
+>📋 **For Mac users with M1/M2 chips**: There are known issues with the "Apple Silicon" version of Anaconda. Please instead install the Intel version, even for M1/M2 chips. It is compatible for this project.
+
+To install the Python requirements:
 
 ```setup
 conda env create -f environment.yml
