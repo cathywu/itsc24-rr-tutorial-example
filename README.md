@@ -35,11 +35,7 @@ The files are created under the `data` directory, and the figures under the `fig
 
 The following are fundamental diagrams generated from single lane traffic modeled using the Intelligent Driver Model (IDM).
 
-#### Flow vs density
-![Flow vs Density](figures/fundamental_diagram_flow_vs_density.png)
-
-#### Speed vs density
-![Speed vs Density](figures/fundamental_diagram_speed_vs_density.png)
+<img src="figures/fundamental_diagram_flow_vs_density.png" align=left width="350" /> <img src="figures/fundamental_diagram_speed_vs_density.png" alight=right width="350" />
 
 
 ## Contributing
