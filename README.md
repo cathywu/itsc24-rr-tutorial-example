@@ -4,7 +4,7 @@
 
 # Reproducibility in Transportation Research Tutorial
 
-This repository is the official implementation for the ITSC 2024 Tutorial [Reproducibility in Transportation Research: A Hands-on Tutorial](https://rrintransportation.github.io/itsc24-rr-tutorial/), Session 2 on *Documentation of Data and Code for Reproducibility*.
+This repository is the official implementation for the ITSC 2024 [Reproducibility in Transportation Research: A Hands-on Tutorial](https://rrintransportation.github.io/itsc24-rr-tutorial/), Session 2 on *Documentation of Data and Code for Reproducibility*.
 
 >📋 See the website for the accompanying lecture notes to this example, including step-by-step guidance.
 
@@ -40,7 +40,8 @@ python simulator.py --run-idm
 
 The following are fundamental diagrams generated from single lane traffic modeled using the Intelligent Driver Model (IDM).
 
-<img src="figures/fundamental_diagram_flow_vs_density.png" align=left width="350" /> <img src="figures/fundamental_diagram_speed_vs_density.png" width="350" />
+<img src="figures/fundamental_diagram_flow_vs_density.png" align=left width="350" /> 
+<img src="figures/fundamental_diagram_speed_vs_density.png" width="350" />
 
 
 ## Contributing
