@@ -2,7 +2,7 @@
 
 >📋  A reproducible project example featuring traffic simulation with car following models and fundamental diagrams.
 
-# My Paper Title
+# Reproducibility in Transportation Research Tutorial
 
 This repository is the official implementation for the ITSC 2024 Tutorial [Reproducibility in Transportation Research: A Hands-on Tutorial](https://rrintransportation.github.io/itsc24-rr-tutorial/), Session 2 on *Documentation of Data and Code for Reproducibility*.
 
