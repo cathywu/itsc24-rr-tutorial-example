@@ -1,0 +1,3 @@
+column,type,label,example,description
+density,float,Density,10 veh/m,Density of vehicles on circular single-lane road segment (veh/m).
+flow,float,Flow,0.6 veh/s,Flow of vehicles on circular single-lane road segment (veh/s).

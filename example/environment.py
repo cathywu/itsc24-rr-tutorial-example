@@ -28,7 +28,7 @@ SIMULATION_TIME = 30
 DT = 0.1
 TIME_THRESHOLD = 15
 DATA_FILE_FLOW = "data/flow_density_data.csv"
-DATA_FILE_SPEED = "data/flow_speed_data.csv" 
+DATA_FILE_SPEED = "data/speed_density_data.csv" 
 
 
 class Environment:
