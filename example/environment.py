@@ -50,7 +50,7 @@ class Environment:
             info_object = pygame.display.Info()
             logging.info("Created info_object...")
             self.screen_width = info_object.current_w
-            logging.info("[INFO] Set screen_width...")
+            logging.info("Set screen_width...")
         else:
             # A dummy screen width to bypass pygame
             self.screen_width = 1000
