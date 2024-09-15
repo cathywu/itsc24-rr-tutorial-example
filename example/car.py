@@ -4,10 +4,11 @@ import pygame
 from pygame.math import Vector2
 import matplotlib
 
+import config as c
+
 matplotlib.use('PS')
 
 reference_position = pygame.Vector2()
-PPU = 30
 
 # IDM related parameters
 # TODO Define parameter specifications of your IDM model
@@ -50,7 +51,7 @@ class Car:
         else:
             reference_position.xy = (reference_position_x, 0)
             temp = pygame.Vector2()
-            temp.xy = (self.screen_width - 48) / PPU, 0
+            temp.xy = (self.screen_width - 48) / c.PPU, 0
             current_gap.xy = vehicle_lead.position - reference_position + (temp - self.position)
         
         return current_gap
@@ -66,7 +67,7 @@ class Car:
         else:
             reference_position.xy = (reference_position_x, 0)
             temp = pygame.Vector2()
-            temp.xy = (self.screen_width - 48) / PPU, 0
+            temp.xy = (self.screen_width - 48) / c.PPU, 0
             current_gap.xy = self.position - reference_position + (temp - vehicle_follow.position)
     
         return current_gap
@@ -194,7 +195,7 @@ class Car:
         # Remember that in this framework, we create a circular road but visualize it as a straight road.
         # This means, each vehicle that leaves the visualization from the right most corner of the screen,
         # will join the road from the left of the screen.
-        if self.position.x > ((self.screen_width - 48) / PPU):
+        if self.position.x > ((self.screen_width - 48) / c.PPU):
             reference_position.xy = (reference_position_x, 2)
             self.position = reference_position + position_change
         else:

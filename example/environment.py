@@ -23,7 +23,6 @@ np.random.seed(175175175)
 
 TOTAL_SIMULATIONS = 15
 PIXEL_METERS_RATIO = 0.04
-PPU = 30
 SIMULATION_TIME = 30
 DT = 0.1
 TIME_THRESHOLD = 15
@@ -147,13 +146,13 @@ class Environment:
 
             for x in range(0, num_vehicles):
                 if x == 0:
-                    cars.append(Car((screen_width / PPU - (48 / PPU)) * 0.75, 2, x, screen_width))
+                    cars.append(Car((screen_width / c.PPU - (48 / c.PPU)) * 0.75, 2, x, screen_width))
                 else:
                     cars.append(Car(cars[x - 1].position.x - random.uniform(1, 2), 2, x, screen_width))
 
             reference_position_x = cars[len(cars) - 1].position.x - 1
-            road_length = max((screen_width / PPU - (48 / PPU)) * 0.25,
-                              (abs(screen_width / PPU - (48 / PPU)) - reference_position_x))
+            road_length = max((screen_width / c.PPU - (48 / c.PPU)) * 0.25,
+                              (abs(screen_width / c.PPU - (48 / c.PPU)) - reference_position_x))
             info_string = f'Running {self.model} Simulation No. {self.simulation_count:>2d} with ' \
                 f'{num_vehicles:>2d} vehicles and road length of {road_length:>3.0f} meters.'
             logging.info(info_string)
@@ -209,7 +208,7 @@ class Environment:
                     rotated = pygame.transform.rotate(car_image, 0)
 
                     for x,_ in enumerate(cars):
-                        self.screen.blit(rotated, cars[x].position * PPU)
+                        self.screen.blit(rotated, cars[x].position * c.PPU)
 
                     screen = pygame.display.get_surface()
 
