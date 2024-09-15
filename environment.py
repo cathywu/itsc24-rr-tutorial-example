@@ -103,7 +103,7 @@ class Environment:
     def run(self):
         # load car image for the visualization
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        image_path = os.path.join(current_dir, "car.png")
+        image_path = os.path.join(current_dir, "assets/car.png")
         screen_width = self.screen_width
         if self.render:
             car_image = pygame.image.load(image_path)
