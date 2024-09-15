@@ -1,3 +1,4 @@
+import logging
 import random
 import time
 import os
@@ -10,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 from car import Car
+from simulator import PROJECT_NAME
 
 matplotlib.use('Agg')
 matplotlib.use('PS')
@@ -39,13 +41,13 @@ class Environment:
         if self.render:
             # initialize the interfaces
             pygame.init()
-            pygame.display.set_caption("Reproducibility in Transportation Research Tutorial")
+            pygame.display.set_caption(PROJECT_NAME)
             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
             self.exit = False
             info_object = pygame.display.Info()
-            print("[INFO] Created info_object...")
+            logging.info("Created info_object...")
             self.screen_width = info_object.current_w
-            print("[INFO] Set screen_width...")
+            logging.info("[INFO] Set screen_width...")
         else:
             # A dummy screen width to bypass pygame
             self.screen_width = 1000
@@ -54,7 +56,7 @@ class Environment:
         self.file_sd = open("data/flow_speed_data.csv", "w")
         
         # Load the graphs
-        self.figure_svd, self.figure_fvd, self.axis_svd, self.axis_fvd = Environment.init_graphs(self)
+        self.figure_svd, self.figure_fvd, self.axis_svd, self.axis_fvd = self.init_graphs()
         self.vehicle_counts = np.random.permutation(np.array([1,2,2,4,7,11,15,18,21,24,30,40,60,80,99]))
         self.simulation_count = 0
         self.trajectory = [] # Trajectory recording the tuple of (car,time,position)
@@ -132,9 +134,9 @@ class Environment:
             reference_position_x = cars[len(cars) - 1].position.x - 1
             road_length = max((screen_width / PPU - (48 / PPU)) * 0.25,
                               (abs(screen_width / PPU - (48 / PPU)) - reference_position_x))
-            info_string = f'[INFO] Running {self.model} Simulation No. {self.simulation_count:>2d} with ' \
+            info_string = f'Running {self.model} Simulation No. {self.simulation_count:>2d} with ' \
                 f'{num_vehicles:>2d} vehicles and road length of {road_length:>3.0f} meters.'
-            print(info_string)
+            logging.info(info_string)
             density = num_vehicles / (road_length * PIXEL_METERS_RATIO)
 
             flow = 0
