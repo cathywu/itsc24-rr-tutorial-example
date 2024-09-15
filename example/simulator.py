@@ -1,14 +1,15 @@
 import logging
 from pprint import pprint
-from environment import *
+from environment import Environment
 import argparse
 
-PROJECT_NAME = "ITSC 2024 Reproducibility in Transportation Research Tutorial"
+import config as c
+
 
 logging.basicConfig(level=logging.INFO)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=PROJECT_NAME)
+    parser = argparse.ArgumentParser(description=c.PROJECT_NAME)
     parser.add_argument('--run-idm', action='store_true')
     parser.add_argument('--run-custom', action='store_true')
     parser.add_argument('--no-render', action='store_true', default=False)

@@ -12,7 +12,8 @@ import numpy as np
 import pandas as pd
 
 from car import Car
-from simulator import PROJECT_NAME
+import config as c
+
 
 matplotlib.use('Agg')
 matplotlib.use('PS')
@@ -44,7 +45,7 @@ class Environment:
         if self.render:
             # initialize the interfaces
             pygame.init()
-            pygame.display.set_caption(PROJECT_NAME)
+            pygame.display.set_caption(c.PROJECT_NAME)
             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
             self.exit = False
             info_object = pygame.display.Info()
@@ -55,11 +56,11 @@ class Environment:
             # A dummy screen width to bypass pygame
             self.screen_width = 1000
 
-        self.file_fd = open("data/flow_density_data.csv", "w")
+        self.file_fd = open(DATA_FILE_FLOW, "w")
         flow_data_fieldnames = ['density', 'flow']
         self.writer_fd = csv.DictWriter(self.file_fd, fieldnames=flow_data_fieldnames)
         self.writer_fd.writeheader()
-        self.file_sd = open("data/flow_speed_data.csv", "w")
+        self.file_sd = open(DATA_FILE_SPEED, "w")
         speed_data_fieldnames = ['density', 'speed']
         self.writer_sd = csv.DictWriter(self.file_sd, fieldnames=speed_data_fieldnames)
         self.writer_sd.writeheader()
@@ -68,10 +69,10 @@ class Environment:
         self.figure_svd, self.figure_fvd, self.axis_svd, self.axis_fvd = self.init_graphs()
         self.vehicle_counts = np.random.permutation(np.array([1,2,2,4,7,11,15,18,21,24,30,40,60,80,99]))
         self.simulation_count = 0
-        self.trajectory = [] # Trajectory recording the tuple of (car,time,position)
+        self.trajectory = []  # Trajectory recording the tuple of (car,time,position)
 
-
-    def init_graphs(self):
+    @staticmethod
+    def init_graphs():
         # initialize the graphs
         figure_svd, axis_svd = plt.subplots()
         figure_fvd, axis_fvd = plt.subplots()
@@ -100,17 +101,27 @@ class Environment:
         return raw_data, size
         
 
-    def save_data_and_plots(self):
-        # Save the two graphs as pngs
-        self.figure_svd.savefig('figures/fundamental_diagram_speed_vs_density.png')
-        self.figure_fvd.savefig('figures/fundamental_diagram_flow_vs_density.png')
+    @staticmethod
+    def plot_fundamental_diagrams():
+        flow_data = pd.read_csv(DATA_FILE_FLOW)
+        figure_svd, figure_fvd, axis_svd, axis_fvd = Environment.init_graphs()
+        axis_fvd.scatter(flow_data['density'], flow_data['flow'])
+        figure_fvd.savefig('figures/fundamental_diagram_flow_vs_density.png')
+
+        speed_data = pd.read_csv(DATA_FILE_SPEED)
+        axis_svd.scatter(speed_data['density'], speed_data['speed'])
+        figure_svd.savefig('figures/fundamental_diagram_speed_vs_density.png')
+
+    
+    def clean_up(self):
+        # Close file descriptors for writing data files
         self.file_fd.close()
         self.file_sd.close()
 
-        # Save the trajectory data of the IDM model
+        # Save the trajectory data of the IDM model for separate analysis
         if self.model == "IDM":
             df_trajectory = pd.DataFrame(self.trajectory, columns = ['Simulation No','Car', 'Time', 'Position'])
-            df_trajectory.to_csv('trajectory.csv')
+            df_trajectory.to_csv('data/trajectory.csv')
 
 
     def run(self):
@@ -187,8 +198,9 @@ class Environment:
                         if event.type == pygame.QUIT:
                             self.exit = True
                         if event.type == pygame.KEYDOWN:
-                            # quit the simulation whenever a key is pressed
-                            self.save_data_and_plots()
+                            # Quit the simulation whenever a key is pressed
+                            self.clean_up()
+                            self.plot_fundamental_diagrams()
                             pygame.quit()
                             return
 
@@ -229,20 +241,21 @@ class Environment:
 
             # collect data relevant for plotting
             avg_velocity = sum_velocity / velocity_count
+            self.writer_sd.writerow({'density': density, 'speed': avg_velocity})
+
+            flow_real = flow / (SIMULATION_TIME - TIME_THRESHOLD)
+            self.writer_fd.writerow({'density': density, 'flow': flow_real})
 
             svd_x_axis.append(density)
             svd_y_axis.append(avg_velocity)
             self.axis_svd.scatter(svd_x_axis, svd_y_axis)
-            self.writer_sd.writerow({'density': density, 'speed': avg_velocity})
 
             fvd_x_axis.append(density)
-            flow_real = flow / (SIMULATION_TIME - TIME_THRESHOLD)
             fvd_y_axis.append(flow_real)
             self.axis_fvd.scatter(fvd_x_axis, fvd_y_axis)
-            self.writer_fd.writerow({'density': density, 'flow': flow_real})
 
-        # Save the two graphs as pngs, save the trajectory data for separate plotting
-        self.save_data_and_plots()
+        self.clean_up()
+        self.plot_fundamental_diagrams()
 
         if self.render:
             # Wait 5 seconds before closing the display
