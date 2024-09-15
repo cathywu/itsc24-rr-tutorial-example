@@ -29,15 +29,17 @@ To produce the fundamental diagrams in the tutorial, run this command:
 python simulator.py --run-idm --no-render
 ```
 
+The files are created under the `data` directory, and the figures under the `figures` directory.
+
 ## Fundamental diagrams
 
 The following are fundamental diagrams generated from single lane traffic modeled using the Intelligent Driver Model (IDM).
 
 #### Flow vs density
-![Flow vs Density](figure_fvd.png)
+![Flow vs Density](figures/fundamental_diagram_flow_vs_density.png)
 
 #### Speed vs density
-![Speed vs Density](figure_svd.png)
+![Speed vs Density](figures/fundamental_diagram_speed_vs_density.png)
 
 
 ## Contributing

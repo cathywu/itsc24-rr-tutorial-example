@@ -37,7 +37,7 @@ class Environment:
         if self.render:
             # initialize the interfaces
             pygame.init()
-            pygame.display.set_caption("1.041/1.200 CP1")
+            pygame.display.set_caption("Reproducibility in Transportation Research Tutorial")
             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
             self.exit = False
             info_object = pygame.display.Info()
@@ -48,8 +48,8 @@ class Environment:
             # A dummy screen width to bypass pygame
             self.screen_width = 1000
 
-        self.file_fd = open("flow-density-data", "w")
-        self.file_sd = open("flow-speed-data", "w")
+        self.file_fd = open("data/flow_density_data.csv", "w")
+        self.file_sd = open("data/flow_speed_data.csv", "w")
         
         # Load the graphs
         self.figure_svd, self.figure_fvd, self.axis_svd, self.axis_fvd = Environment.init_graphs(self)
@@ -67,7 +67,6 @@ class Environment:
         axis_fvd.plot([], [])
 
         axis_svd.set(xlabel='Density (veh/m)', ylabel='Speed (m/s)', title='Speed vs Density')
-
         axis_fvd.set(xlabel='Density (veh/m)', ylabel='Flow (veh/s)', title='Flow vs Density')
 
         axis_svd.grid()
@@ -90,8 +89,8 @@ class Environment:
 
     def save_data_and_plots(self):
         # Save the two graphs as pngs
-        self.figure_svd.savefig('figure_svd.png')
-        self.figure_fvd.savefig('figure_fvd.png')
+        self.figure_svd.savefig('figures/fundamental_diagram_speed_vs_density.png')
+        self.figure_fvd.savefig('figures/fundamental_diagram_flow_vs_density.png')
         self.file_fd.close()
         self.file_sd.close()
 

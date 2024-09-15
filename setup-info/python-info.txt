@@ -1,11 +1,11 @@
 {'commit_hash': '4e1d3e557',
  'commit_source': 'installation',
  'default_encoding': 'utf-8',
- 'ipython_path': '/opt/anaconda3/envs/CP1/lib/python3.8/site-packages/IPython',
+ 'ipython_path': '/opt/anaconda3/envs/RR/lib/python3.8/site-packages/IPython',
  'ipython_version': '8.12.3',
  'os_name': 'posix',
  'platform': 'macOS-10.16-x86_64-i386-64bit',
- 'sys_executable': '/opt/anaconda3/envs/CP1/bin/python',
+ 'sys_executable': '/opt/anaconda3/envs/RR/bin/python',
  'sys_platform': 'darwin',
  'sys_version': '3.8.0 (default, Nov  6 2019, 15:49:01) \n'
                 '[Clang 4.0.1 (tags/RELEASE_401/final)]'}
