@@ -13,6 +13,7 @@ from car import Car
 
 matplotlib.use('Agg')
 matplotlib.use('PS')
+random.seed(175175175)
 np.random.seed(175175175)
 
 
