@@ -36,6 +36,15 @@ To visualize the traffic simulation:
 python example/simulator.py --run-idm
 ```
 
+To save the traffic simulation into gif:
+```
+python example/simulator.py --run-idm --plot-gif
+```
+
+## Simulation Example
+
+<img src="figures/traffic_simulation.gif" width="800" /> 
+
 ## Fundamental diagrams
 
 The following are fundamental diagrams generated from single lane traffic modeled using the Intelligent Driver Model (IDM).

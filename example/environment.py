@@ -10,6 +10,7 @@ import matplotlib.backends.backend_agg as agg
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from PIL import Image
 
 from car import Car
 import config as c
@@ -28,11 +29,13 @@ DT = 0.1
 TIME_THRESHOLD = 15
 DATA_FILE_FLOW = "data/flow_density_data.csv"
 DATA_FILE_SPEED = "data/speed_density_data.csv" 
+GIF_FILE = "figures/traffic_simulation.gif"
 
 
 class Environment:
     def __init__(self, args):
         self.render = not args.no_render
+        self.plot_gif = args.plot_gif
         
         if args.run_idm:
             self.model = 'IDM'
@@ -70,6 +73,8 @@ class Environment:
         self.simulation_count = 0
         self.trajectory = []  # Trajectory recording the tuple of (car,time,position)
 
+        self.frames = []
+
     @staticmethod
     def init_graphs():
         # initialize the graphs
@@ -98,7 +103,18 @@ class Environment:
         size = canvas.get_width_height()
 
         return raw_data, size
-        
+
+    def save_gif(self):
+        # Create a GIF from the captured frames
+        if self.plot_gif and self.frames:
+            self.frames[0].save(
+                GIF_FILE,
+                save_all=True,
+                append_images=self.frames[1:],  # List of remaining frames
+                duration=0.01,  # Duration in milliseconds per frame
+                loop=0  # 0 means loop forever
+            )
+            logging.info(f"Saved GIF file to {GIF_FILE}")       
 
     @staticmethod
     def plot_fundamental_diagrams():
@@ -121,6 +137,8 @@ class Environment:
         if self.model == "IDM":
             df_trajectory = pd.DataFrame(self.trajectory, columns = ['Simulation No','Car', 'Time', 'Position'])
             df_trajectory.to_csv('data/trajectory.csv')
+            
+        self.save_gif()
 
 
     def run(self):
@@ -237,6 +255,13 @@ class Environment:
 
                     # Update interface
                     pygame.display.flip()
+                    
+                    # Capture the frame if plotting GIF
+                    if self.plot_gif and self.simulation_count == TOTAL_SIMULATIONS-1:
+                        # Convert screen to string and save as PIL Image
+                        raw_data = pygame.image.tostring(screen, "RGB")
+                        image = Image.frombytes("RGB", (self.screen.get_width(), int(self.screen.get_height()*2/3)), raw_data)
+                        self.frames.append(image)
 
             # collect data relevant for plotting
             avg_velocity = sum_velocity / velocity_count
