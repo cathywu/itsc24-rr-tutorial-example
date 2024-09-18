@@ -26,15 +26,24 @@ conda activate RR
 To produce the fundamental diagrams in the tutorial, run this command:
 
 ```
-python simulator.py --run-idm --no-render
+python example/simulator.py --run-idm --no-render
 ```
 
 The files are created under the `data` directory, and the figures under the `figures` directory.
 
 To visualize the traffic simulation:
 ```
-python simulator.py --run-idm
+python example/simulator.py --run-idm
 ```
+
+To save the traffic simulation into gif:
+```
+python example/simulator.py --run-idm --plot-gif
+```
+
+## Simulation Example
+
+<img src="figures/traffic_simulation.gif" width="800" /> 
 
 ## Fundamental diagrams
 

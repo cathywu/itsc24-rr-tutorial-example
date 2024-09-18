@@ -13,6 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('--run-idm', action='store_true')
     parser.add_argument('--run-custom', action='store_true')
     parser.add_argument('--no-render', action='store_true', default=False)
+    parser.add_argument('--plot-gif', action='store_true', default=False)
     args = parser.parse_args()
 
     logging.info(f"Arugments {vars(args)}")
