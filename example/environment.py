@@ -37,6 +37,9 @@ class Environment:
         self.render = not args.no_render
         self.plot_gif = args.plot_gif
         
+        if self.plot_gif:
+            self.render = False
+        
         if args.run_idm:
             self.model = 'IDM'
         elif args.run_custom:
@@ -161,6 +164,18 @@ class Environment:
             cars = []
 
             num_vehicles = self.vehicle_counts[self.simulation_count-1]
+            
+            # Initialize the pygame only for second to the last simulation
+            if self.plot_gif and self.simulation_count == TOTAL_SIMULATIONS-1:
+                pygame.init()
+                pygame.display.set_caption(c.PROJECT_NAME)
+                self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                self.exit = False
+                info_object = pygame.display.Info()
+                logging.info("Created info_object...")
+                self.screen_width = info_object.current_w
+                logging.info("Set screen_width...")
+                car_image = pygame.image.load(image_path)
 
             for x in range(0, num_vehicles):
                 if x == 0:
@@ -209,7 +224,8 @@ class Environment:
                         sum_velocity += car.velocity.x
                         velocity_count += 1
 
-                if self.render:
+
+                if self.render or (self.plot_gif and self.simulation_count == TOTAL_SIMULATIONS-1):
                     # Event queue for the simulation
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
